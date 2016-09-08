@@ -1,0 +1,55 @@
+	//Setting up Algorithm X
+	for (int row = 0; row < 730; ++row)
+	for (int col = 0; col < 324; ++col)
+	{
+		int iter = row * 324 + col;
+
+		//Linking left
+		if (col == 0) nodes[iter]->left = nodes[iter + 323];
+		else nodes[iter]->left = nodes[iter - 1];
+
+		//Linking right
+		if (col == 323) nodes[iter]->right = nodes[iter - 323];
+		else nodes[iter]->right = nodes[iter + 1];
+
+		//Linking up
+		if (row == 0) nodes[iter]->up = nodes[iter + 236196];
+		else nodes[iter]->up = nodes[iter - 324];
+
+		//Linking down
+		if (row == 729) nodes[iter]->down = nodes[iter - 236196];
+		else nodes[iter]->down = nodes[iter + 324];
+
+		int check;
+		if (col < 81)
+		{
+			check = row / 9;
+			if (check == col) nodes[iter]->data = true;
+		}
+		else if (col < 162)
+		{
+			int _row = row / 81;
+			check = _row * 9;
+			int __row = row % 9;
+			check += __row;
+			if (check == col - 81) nodes[iter]->data = true;
+		}
+		else if (col < 243)
+		{
+			int _row = row % 81;
+			check = _row;
+			if (check == col - 162) nodes[iter]->data = true;
+			if (row == 729) nodes[iter]->data = false;
+		}
+		else if (col < 324)
+		{
+			int _row = row / 243;
+			check = _row * 27;
+			int __row = row / 27;
+			int ___row = __row % 3;
+			check += ___row * 9;
+			int ____row = row % 9;
+			check += ____row;
+			if (check == col - 243) nodes[iter]->data = true;
+		}
+	}
